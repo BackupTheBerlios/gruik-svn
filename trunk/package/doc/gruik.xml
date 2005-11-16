@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<!-- vim: sw=2 tw=80
+  $Id: gruik.xml 25 2005-10-20 20:02:36Z oli $
+-->
+
+<!DOCTYPE refentry
+  PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+         "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+
+<refentry>
+  <refmeta>
+    <refentrytitle>gruik</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv id='name'>
+    <refname>gruik</refname>
+    <refpurpose>Yet another TCP/IP sniffer</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv id='synopsis'>
+    <cmdsynopsis>
+      <command>gruik</command>
+
+      <arg choice='opt'>
+        <arg choice='plain'>-h</arg>
+        <arg choice='plain'>--help</arg>
+      </arg>
+      <arg choice='opt'>
+        <arg choice='plain'>--version</arg>
+      </arg>
+      <arg choice='opt'>
+        <arg choice="plain">-l <replaceable>logfile</replaceable></arg>
+        <arg choice="plain">--logfile <replaceable>logfile</replaceable></arg>
+      </arg>
+      <arg choice='opt'>
+        <arg choice="plain">-c <replaceable>count</replaceable></arg>
+        <arg choice="plain">--count <replaceable>count</replaceable></arg>
+      </arg>
+      <arg choice='opt'>
+        <arg choice="plain">-p <replaceable>expression</replaceable></arg>
+        <arg choice="plain">--prn <replaceable>expression</replaceable></arg>
+      </arg>
+      <arg choice='opt'>
+        <arg choice="plain">-t <replaceable>time format</replaceable></arg>
+        <arg choice="plain">--time-format <replaceable>time format</replaceable></arg>
+      </arg>
+      <arg choice='opt'>
+        <arg choice="plain">-f <replaceable>filter expr</replaceable></arg>
+        <arg choice="plain">--filter <replaceable>filter expr</replaceable></arg>
+      </arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1 id='description'><title>Description</title>
+    <para>This manual page documents briefly the <command>gruik</command> TCP-IP
+    sniffer.</para>
+
+    <para><command>gruik</command> is an application that prints packet
+    information as they are received by your system.</para>
+  </refsect1>
+
+  <refsect1 id='options'><title>Options</title>
+    <para>
+      This program follow the usual GNU command line syntax, with long options starting with two
+      dashes (<literal>--</literal>).
+
+      A summary of options is included below.
+    </para>
+
+    <variablelist remap='IP'>
+      <varlistentry>
+        <term><option>--version</option></term>
+        <listitem>
+          <para>show program's version number and exit</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-h</option></term>
+        <term><option>--help</option></term>
+        <listitem>
+          <para>show this help message and exit</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-l <replaceable>filename</replaceable></option></term>
+        <term><option>--logfile <replaceable>filename</replaceable></option></term>
+        <listitem>
+          <para>store log messages in filename <replaceable>filename</replaceable>.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-c <replaceable>count</replaceable></option></term>
+        <term><option>--count <replaceable>count</replaceable></option></term>
+        <listitem>
+          <para>count <replaceable>count</replaceable> packets before exiting</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-p <replaceable>expression</replaceable></option></term>
+        <term><option>--prn <replaceable>expression</replaceable></option></term>
+        <listitem>
+          <para>print packet information using <replaceable>expression</replaceable></para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-t <replaceable>format</replaceable></option></term>
+        <term><option>--time-format <replaceable>format</replaceable></option></term>
+        <listitem>
+          <para>print time according to <replaceable>format</replaceable></para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-f <replaceable>expression</replaceable></option></term>
+        <term><option>--filter <replaceable>expression</replaceable></option></term>
+        <listitem>
+          <para>show packers that match <replaceable>filter expr</replaceable>
+          where <replaceable>filter expr</replaceable> is a BPF expression</para>
+        </listitem>
+      </varlistentry>
+
+    </variablelist>
+  </refsect1>
+
+  <refsect1 id='author'><title>Author</title>
+    <para>This program and this manual page was written by Olivier Laurent <email>olilau@gmail.com</email>.
+    </para>
+  </refsect1>
+
+</refentry>
+

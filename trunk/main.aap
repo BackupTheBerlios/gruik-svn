@@ -1,0 +1,44 @@
+
+# $Id: $
+
+FILE = gruik
+DOCDIR = package/doc
+
+:variant BUILD
+    egg
+    rpm
+
+#CLEANFILES = *.info *.[0-9] untitled.texi ${DOCDIR}/${FILE}.info ${DOCDIR}/${FILE}.1 MANIFEST ${DOCDIR}/${FILE}.1.gz ${DOCDIR}/${FILE}.info.gz *.pyc
+CLEANFILES = *.info *.[0-9] untitled.texi ${DOCDIR}/${FILE}.info
+CLEANFILES += ${DOCDIR}/${FILE}.1 MANIFEST ${DOCDIR}/${FILE}.1.gz ${DOCDIR}/${FILE}.info.gz *.pyc
+CLEANDIRS = AAPDIR build dist package/${FILE}.egg-info
+
+NO_OUT = >/dev/null
+
+# commands to build man pages:
+XML2MAN = docbook2x-man
+XML2MAN_OPTS = --to-stdout
+
+# commands to build info pages:
+XML2INFO = docbook2x-texi
+XML2INFO_OPTS = --info --to-stdout
+
+# Options for gzip:
+GZIP_OPTS = -f
+
+man : package/doc/${FILE}.xml
+    :sys ${XML2MAN} ${XML2MAN_OPTS} ${DOCDIR}/${FILE}.xml > ${DOCDIR}/${FILE}.1
+    :sys gzip ${GZIP_OPTS} ${DOCDIR}/${FILE}.1
+
+info : package/doc/${FILE}.xml
+    :sys ${XML2INFO} ${XML2INFO_OPTS} ${DOCDIR}/${FILE}.xml >${DOCDIR}/${FILE}.info
+    :sys gzip ${GZIP_OPTS} ${DOCDIR}/${FILE}.info
+
+build : setup.py
+    :sys python2.4 setup.py bdist_${BUILD}
+
+install :
+    :sys easy_install dist/${FILE}-*-py2.4.egg
+
+all : man info build
+

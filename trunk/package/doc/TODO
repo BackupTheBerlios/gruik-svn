@@ -1,0 +1,40 @@
+
+.. $Id: $
+
+Milestones
+==========
+
+0.6
+---
+
+ * Daemon mode with complete logging facility.
+ * improve logging
+
+0.7
+---
+
+ * packet persistence
+ * analysis module
+ * interactive module to inspect old packets
+
+0.8
+---
+
+ * Plugins to easily add functionality:
+     new fields to show:
+       - IP Options
+       - DHCP Options
+       - ...
+
+0.9
+---
+
+ * a time machine
+
+1.0
+---
+
+ * complete documentation
+ * promotion material
+ * examples
+

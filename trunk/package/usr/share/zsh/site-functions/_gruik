@@ -1,0 +1,18 @@
+#compdef gruik
+# $Id: _gruik 27 2005-10-25 19:18:38Z oli $
+
+typeset -A opt_args
+
+local context state line
+
+_arguments -s -S \
+'(-h)'{-c,--count}'[number of packets to process before exiting]:packets:' \
+'(- *)'{-h,--help}'[help]' \
+'(-h)--logfile[Store log messages in filename <FILENAME>]:filename:' \
+'(-h)--error-logfile[Store error messages in filename <FILENAME>]:filename:' \
+'(-h)'{-p,--prn}'[Print packet information using an expression]:expression:' \
+'(-h)'{-t,--time-format}'[Print time according to a format]:format:' \
+'(-h)'{-f,--filter}'[Show packets that match an expression]:expression:' \
+'(-h)'{-d,--daemon}'[Daemon action <ACTION>]:action:(start stop restart status):' \
+&& return 0
+

@@ -1,0 +1,28 @@
+
+[SETTINGS]
+verbose= boolean(default=True)
+count= integer(min=0, default=0)
+prn= string(default="$now $layers $src:$sport -> $dst:$dport $flags")
+timestr= string(default='%d/%m/%Y %H:%M:%S')
+theme= string(default='oli')
+filter= string(default='')
+logfile= string(default='/var/log/gruik/app.log')
+error_logfile= string(default='/var/log/gruik/error.log')
+
+[COLORS]
+sport=  option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='red')
+dport=  option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='red')
+src=    option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='blue')
+dst=    option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='blue')
+macsrc= option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='blue')
+macdst= option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='blue')
+layers= option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='magenta')
+now=    option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='yellow')
+flags=  option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'magenta', 'cyan', 'grey', 'bold', 'uline', 'blink', 'invert', default='cyan')
+
+[SCAPY]
+L3socket= option('L3PacketSocket', 'L3RawSocket', default='L3PacketSocket')
+
+# $Id: $
+# vi: ft=dosini tw=0
+
