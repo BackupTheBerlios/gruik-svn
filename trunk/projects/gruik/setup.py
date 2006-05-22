@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
 
-# $Id: $
+# $Id$
 
 import os, sys
 from setuptools import setup, find_packages
