@@ -1,6 +1,6 @@
 #!/usr/bin/python2.4
 
-# $Id: daemoni.py 25 2005-10-20 20:02:36Z oli $
+# $Id$
 
 import sys, os, time
 from signal import SIGTERM

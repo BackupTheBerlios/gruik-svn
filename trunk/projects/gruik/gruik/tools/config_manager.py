@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: latin1 -*-
 
-# $Id: config_manager.py 30 2005-10-30 07:24:38Z oli $
+# $Id$
 
 """
 Module that handle system wide and user config files

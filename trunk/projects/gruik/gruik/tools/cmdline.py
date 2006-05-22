@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-1 -*-
 
-# $Id: cmdline.py 25 2005-10-20 20:02:36Z oli $
+# $Id$
 
 """
 A command line framework. It should ease the creation of command line utility.

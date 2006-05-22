@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.4
 # -*- encoding: latin1 -*-
 
-# $Id: gruikconf.py 32 2005-10-30 18:46:00Z oli $
+# $Id$
 
 import time
 import os

@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE refentry
+  PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+         "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+
+<refentry>
+  <refmeta>
+    <refentrytitle>scapy</refentrytitle>
+    <manvolnum>1</manvolnum>
+  </refmeta>
+
+  <refnamediv id='name'>
+    <refname>scapy</refname>
+    <refpurpose>scapy - Interactive packet manipulation tool</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv id='synopsis'>
+    <cmdsynopsis>
+      <command>scapy</command>
+
+      <arg choice='opt'>
+        <arg choice='plain'>-h</arg>
+      </arg>
+      <arg choice='opt'>
+        <arg choice="plain">-s <replaceable>session file</replaceable></arg>
+      </arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1 id='description'><title>Description</title>
+    <para>This manual page documents briefly the <command>scapy</command>
+       tool.</para>
+
+    <para>scapy  is  a  powerful  interactive  packet  manipulation tool, packet
+      generator, network scanner, network discovery, packet sniffer, etc. It can
+      for the moment replace hping, 85% of nmap, arpspoof, arp-sk, arping,
+      tcpdump,  tethereal, p0f, ...</para>
+
+    <para>scapy  uses  the  python interpreter as a command board. That means
+      that you can use directly python language (assign variables, use loops,
+      define functions, etc.) If you give a file as parameter when you run
+      scapy, your session (vari- ables,  functions, intances, ...) will be saved
+      when you leave the interpretor, and restored the next time you launch
+      scapy.</para>
+
+    <para>scapy is not user proof yet. But it is almost reliable. Some more
+      things need to be done to support more platforms.</para>
+
+    <para>The idea is simple. Those kind of tools do two things : sending
+      packets and receiving answers. That's what scapy does :  you
+      define a set of packets, it sends them, receives answers, matches requests
+      with answers and returns a list of packet couples (request, answer) and a
+      list of unmatched packets. This has the big advantage over tools like nmap
+      or hping that an answer is not reduced to (open/closed/filtered), but is
+      the whole packet.</para>
+
+      <para>On top of this can be build more high level functions, for example
+        one that does traceroutes and give as a result only the start TTL of the
+        request and the source IP of the answer. One that pings a whole network
+        and gives the  list of machines answering. One that does a portscan and
+        returns a LaTeX report.</para>
+  </refsect1>
+
+  <refsect1 id='options'><title>Options</title>
+    <para>
+       Options for scapy are:
+    </para>
+
+    <variablelist remap='IP'>
+      <varlistentry>
+        <term><option>-h</option></term>
+        <listitem>
+          <para>display help screen and exit</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-s <replaceable>FILE</replaceable></option></term>
+        <listitem>
+          <para>use <replaceable>FILE</replaceable> to save/load session values
+                (variables, functions, intances, ...)
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1 id='commands'><title>Commands</title>
+    <para>Only the vital commands to begin are listed here for the moment.</para>
+
+    <para>
+      <command>ls()</command> lists supported protocol layers. If a protocol
+        layer is given as parameter, lists its fields and types of
+        fields.
+    </para>
+
+    <para>
+       <command>lsc()</command> lists some user commands. If a command is given
+         as parameter, its documentation is displayed.
+    </para>
+
+    <para>
+       <command>conf</command> this object contains the configuration.
+    </para>
+
+  </refsect1>
+
+  <refsect1 id='examples'><title>Examples</title>
+    <para>More verbose examples are available at
+      http://www.cartel-securite.fr/pbiondi/scapy.html. Just run scapy and try
+      the following commands in the interpreter.
+    </para>
+
+    <para>Test the robustness of a network stack with invalid packets:
+      <screen>(IP(dst="172.16.1.1", ihl=2, options="b$2$", version=3)/ICMP())</screen>
+    </para>
+
+    <para>Packet sniffing and dissection (with a bpf filter or thetereal-like output):
+      <screen>a=sniff(filter="tcp port 110")</screen>
+      <screen>a=sniff(prn = lambda x: x.display)</screen>
+    </para>
+
+    <para>Sniffed packet reemission:
+      <screen>a=sniff(filter="tcp port 110")</screen>
+      <screen>sendp(a)</screen>
+    </para>
+
+    <para>Pcap file packet reemission:
+      <screen>sendp(rdpcap("file.cap"))</screen>
+    </para>
+
+    <para>Manual TCP traceroute:
+      <screen>sr(IP(dst="www.google.com", ttl=(1,30))/TCP(seq=RandInt(), sport=RandShort(), dport=dport)</screen>
+    </para>
+
+    <para>Protocol scan:
+      <screen>sr(IP(dst="172.16.1.28", proto=(1,254)))</screen>
+    </para>
+
+    <para>ARP ping:
+      <screen>srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst="172.16.1.1/24"))</screen>
+    </para>
+
+    <para>ACK scan:
+      <screen>sr(IP(dst="172.16.1.28")/TCP(dport=(1,1024), flags="A"))</screen>
+    </para>
+
+    <para>Passive OS fingerprinting:
+      <screen>sniff(prn=prnp0f)</screen>
+    </para>
+
+    <para>Active OS fingerprinting:
+      <screen>nmap_fp("172.16.1.232")</screen>
+    </para>
+
+    <para>ARP cache poisonning:
+      <screen>sendp(Ether(dst=tmac)/ARP(op="who-has", psrc=victim, pdst=target))</screen>
+    </para>
+
+    <para>Reporting:
+      <screen>report_ports("192.168.2.34", (20,30))</screen>
+    </para>
+  </refsect1>
+
+  <refsect1 id='bugs'><title>Bugs</title>
+    <para>Does not give the right source IP for routes that use interface
+      aliases.</para>
+
+    <para>May miss packets under heavy load.</para>
+  </refsect1>
+
+  <refsect1 id='author'><title>Author</title>
+    <para>Philippe Biondi <email>biondi AT cartel-securite DOT fr</email></para>
+
+    <para>This  manual  page  was written by Alberto Gonzalez Iniesta
+      <email>agi AT agi DOT as</email> and Philippe Biondi for the Debian GNU/Linux
+      system (but may be used by others).</para>
+  </refsect1>
+
+</refentry>
+
+<!--
+  vi: sw=2 tw=80
+-->
+

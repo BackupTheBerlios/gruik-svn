@@ -1,0 +1,103 @@
+
+# $Id: $
+
+FILE = scapy
+PACKAGEDIR= package
+DOCDIR = ${PACKAGEDIR}/doc
+LIBDIR = ${PACKAGEDIR}/lib
+BINDIR = ${PACKAGEDIR}/usr/bin
+SOURCEDIR = src
+SCAPYDOWNLOAD = http://www.secdev.org/projects/scapy/files
+
+:variant PYVERSION
+    none
+      PYVERSION = $BR$BR
+    *
+      PYVERSION = ${PYVERSION}$BR$BR
+
+CLEANFILES = ${DOCDIR}/${FILE}.info ${DOCDIR}/${FILE}.1 ${DOCDIR}/${FILE}.1.gz ${DOCDIR}/${FILE}.info.gz
+CLEANFILES += *.pyc package/lib/*.pyc ${DOCDIR}/ChangeLog ${DOCDIR}/LICENSE ${DOCDIR}/TODO ${SOURCEDIR}/*.py~
+CLEANFILES += ${LIBDIR}/${FILE}.py ${BINDIR}/iscap
+CLEANDIRS = AAPDIR build dist ${FILE}.egg-info ${LIBDIR}/${FILE}.egg-info
+
+NO_OUT = >/dev/null
+
+# commands to build man pages:
+:progsearch XML2MAN docbook2x-man
+XML2MAN_OPTS = --to-stdout
+
+# commands to build info pages:
+:progsearch XML2INFO docbook2x-texi
+XML2INFO_OPTS = --info --to-stdout
+
+# Options for gzip:
+GZIP_OPTS = -f
+
+@import os
+
+
+dirstruct : $SOURCEDIR $DOCDIR $BINDIR $LIBDIR
+    :mkdir {force} {recursive} $SOURCEDIR
+    :mkdir {force} {recursive} $DOCDIR
+    :mkdir {force} {recursive} $BINDIR
+    :mkdir {force} {recursive} $LIBDIR
+
+fetch : dirstruct
+    @if not os.path.exists('%s/%s.py' % (_recipe.SOURCEDIR, _recipe.FILE)):
+        :attr {fetch = $SCAPYDOWNLOAD/%file%} ${FILE}.py
+        :fetchall
+        :move ${FILE}.py $SOURCEDIR
+    @else:
+        :print skipping download: the file already exists
+
+man : fetch
+    @if _recipe.XML2MAN and os.path.exists('%s/%s.xml' % (_recipe.DOCDIR, _recipe.FILE)):
+        :sys ${XML2MAN} ${XML2MAN_OPTS} ${DOCDIR}/${FILE}.xml > ${DOCDIR}/${FILE}.1
+        :sys gzip ${GZIP_OPTS} ${DOCDIR}/${FILE}.1
+    @else:
+        :print skipping building man page: missing file: ${DOCDIR}/${FILE}.xml
+
+info : fetch
+    @if _recipe.XML2INFO and os.path.exists('%s/%s.xml' % (_recipe.DOCDIR, _recipe.FILE)):
+        :sys ${XML2INFO} ${XML2INFO_OPTS} ${DOCDIR}/${FILE}.xml >${DOCDIR}/${FILE}.info
+        :sys gzip ${GZIP_OPTS} ${DOCDIR}/${FILE}.info
+    @else:
+        :print skipping building info page: missing file: ${DOCDIR}/${FILE}.xml
+
+doc : man info
+    :pass
+
+writeiscapy : fetch
+    :del {f} {q} ${BINDIR}/iscapy
+    :print >> ${BINDIR}/iscapy $(#)!/usr/bin/python${PYVERSION}
+    :print >> ${BINDIR}/iscapy from scapy import *
+    :print >> ${BINDIR}/iscapy
+    :print >> ${BINDIR}/iscapy def usage():
+    :print >> ${BINDIR}/iscapy $( )   print "Usage: iscapy [-s sessionfile]"
+    :print >> ${BINDIR}/iscapy $( )   sys.exit(0)
+    :print >> ${BINDIR}/iscapy
+    :print >> ${BINDIR}/iscapy if __name__ == "__main__":
+    :print >> ${BINDIR}/iscapy $( )   interact()
+    :print >> ${BINDIR}/iscapy
+    :chmod 755 ${BINDIR}/iscapy
+
+fix : fetch writeiscapy
+    :copy {p} {e} ${SOURCEDIR}/${FILE}.py ${SOURCEDIR}/${FILE}.py.BAK
+    :cat ${SOURCEDIR}/${FILE}.py.BAK
+         | :eval re.sub(r"[ ]*(?=\n+|$)", '', stdin)
+         >! ${SOURCEDIR}/${FILE}.py
+    :sys python untabify.py -t 8 ${SOURCEDIR}/${FILE}.py
+    :del ${SOURCEDIR}/${FILE}.py~
+    :sys python cut.py ${SOURCEDIR}/${FILE}.py ${DOCDIR} ${LIBDIR}
+
+rollback : fetch src/${FILE}.py.BAK clean
+    :move ${SOURCEDIR}/${FILE}.py.BAK ${SOURCEDIR}/${FILE}.py
+
+build : fetch man info fix
+    :sys python2.4 setup.py bdist_egg
+
+install : fetch doc fix build
+    :sys easy_install dist/${FILE}-*-py2.4.egg
+
+all : doc fix build
+

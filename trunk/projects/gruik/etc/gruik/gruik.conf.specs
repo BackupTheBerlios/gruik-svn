@@ -23,6 +23,6 @@ flags=  option('normal', 'black', 'red', 'green', 'yellow', 'blue', 'purple', 'm
 [SCAPY]
 L3socket= option('L3PacketSocket', 'L3RawSocket', default='L3PacketSocket')
 
-# $Id: $
+# $Id$
 # vi: ft=dosini tw=0
 

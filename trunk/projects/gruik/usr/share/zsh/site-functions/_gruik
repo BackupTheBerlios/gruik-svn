@@ -1,5 +1,5 @@
 #compdef gruik
-# $Id: _gruik 27 2005-10-25 19:18:38Z oli $
+# $Id$
 
 typeset -A opt_args
 
